@@ -1,0 +1,27 @@
+FROM  humana-registry-docker-remote.jfrog.io/node:12.13.0
+LABEL Humana/Consumer Service
+
+#Run apk update
+#Run apk upgrade
+#Run apk add --no-cache curl
+
+
+WORKDIR /usr/src/app
+
+RUN pwd
+
+COPY .npmrc .npmrc
+
+COPY package.json  ./
+
+RUN npm install --legacy-peer-deps
+
+COPY . .
+
+RUN npm run build
+
+COPY . .
+
+EXPOSE 80
+
+CMD ["npm", "start"]
